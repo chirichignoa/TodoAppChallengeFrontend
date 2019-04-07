@@ -1,0 +1,16 @@
+<h1>Create a ToDo</h1>
+<form [formGroup]="createTodoForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input type="text" class="form-control" id="title" placeholder="Enter todo's title" formControlName="todoTitle">
+  </div>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <input type="text" class="form-control" id="description" placeholder="Enter todo's description" formControlName="todoDescription">
+  </div>
+  <div class="form-group">
+    <label for="formControl">Attach an image</label>
+    <input type="file" class="form-control-file" id="formControl" (change)="onFileChange($event)" accept=".jpg,.png">
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="!createTodoForm.valid">Submit</button>
+</form>
