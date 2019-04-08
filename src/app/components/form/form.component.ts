@@ -43,6 +43,7 @@ export class FormComponent implements OnInit {
 
   onSubmit() {
     const formData = new FormData();
+    formData.append('title', this.createTodoForm.value.todoTitle);
     formData.append('description', this.createTodoForm.value.todoDescription);
     formData.append('image', this.selectedFile);
     this.todoService.createTodo(formData);
