@@ -18,10 +18,14 @@ export class FormComponent implements OnInit {
   submitted = false;
   fileName = '';
   selectedFile: File;
+  error = false;
+  errorMessage = '';
 
   constructor(private formBuilder: FormBuilder,
               private todoService: TodoService,
               private router: Router) {
+    this.error = false;
+    this.errorMessage = '';
     this.createTodoForm = formBuilder.group({
       todoTitle: ['', Validators.required],
       todoDescription: ['', Validators.required],
@@ -49,7 +53,8 @@ export class FormComponent implements OnInit {
       (data: Todo) => {
         this.router.navigate(['/home']);
       }, (error) => {
-        console.log(error);
+        this.error = true;
+        this.errorMessage = error;
       }
     );
   }

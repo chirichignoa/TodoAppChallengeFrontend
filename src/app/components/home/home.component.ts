@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
     this.todoService.getTodos()
     .subscribe(( data: Todo[] ) => { this.todos = data; },
      (error => {
+       console.log(error);
        this.error = true;
        this.errorMessage = error;
       }));
