@@ -4,6 +4,7 @@ import { HttpHeaders } from '@angular/common/http';
 
 import { TodoService } from '../../services/todo.service';
 import { Todo } from 'src/app/models/todo';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,28 +17,25 @@ export class FormComponent implements OnInit {
   loading = false;
   submitted = false;
   fileName = '';
-  newTodo: Todo = new Todo();
   selectedFile: File;
 
   constructor(private formBuilder: FormBuilder,
-              private todoService: TodoService) {
+              private todoService: TodoService,
+              private router: Router) {
     this.createTodoForm = formBuilder.group({
       todoTitle: ['', Validators.required],
       todoDescription: ['', Validators.required],
-      todoImage: ['']
+      todoImage: ['', Validators.required]
     });
    }
 
   ngOnInit() {
   }
 
-  selectFile(imageInput: any) {
-    this.newTodo.image = imageInput.files[0];
-  }
-
   onFileChange(event) {
     if (event.target.files.length > 0) {
       this.selectedFile = event.target.files[0];
+      this.createTodoForm['todoImage'] = this.selectedFile;
     }
   }
 
@@ -46,6 +44,13 @@ export class FormComponent implements OnInit {
     formData.append('title', this.createTodoForm.value.todoTitle);
     formData.append('description', this.createTodoForm.value.todoDescription);
     formData.append('image', this.selectedFile);
-    this.todoService.createTodo(formData);
+    this.todoService.createTodo(formData)
+    .subscribe(
+      (data: Todo) => {
+        this.router.navigate(['/home']);
+      }, (error) => {
+        console.log(error);
+      }
+    );
   }
 }

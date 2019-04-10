@@ -1,3 +1,64 @@
-<p>
-  home works!
-</p>
+<div *ngIf="(todos.length == 0 && !filterApplied) && !error" class="container h-100 d-flex margin-t info">
+    <div class="jumbotron my-auto">
+      <h1 class="display-1">No Todo's!</h1>
+      <p class="lead">Please add a Todo.</p>
+    </div>
+</div>
+<div *ngIf="((todos.length == 0 && filterApplied) || todos.length > 0) && !error" class="row container-fluid margin-t">
+  <!-- ID -->
+  <div class="col-lg-2 col-xl-2">
+    <div class="input-group mb-4">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup">ID</span>
+      </div>
+      <input [(ngModel)]="id" type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup">
+    </div>
+  </div>
+  <!-- DESCRIPTION -->
+  <div class="col-lg-4 col-xl-4">
+    <div class="input-group mb-4">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup">Description</span>
+      </div>
+      <input [(ngModel)]="description" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup">
+    </div>
+  </div>
+  <!-- STATUS -->
+  <div class="col-lg-3 col-xl-3">
+      <div class="input-group mb-4">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup">Status</span>
+        </div>
+        <select [(ngModel)]="status" class="custom-select" id="inputGroupSelect01">
+          <option value="" disabled selected>Please select</option>
+          <option value="PENDING">Pending</option>
+          <option value="DONE">Done</option>
+        </select>
+      </div>
+  </div>
+  <div class="col">
+    <button class="btn btn-info btn-block" (click)="onFilterClick()" type="button">Filter</button>
+  </div>
+    <div *ngIf="filterApplied" class="col">
+      <button class="btn btn-danger btn-block" (click)="onClearFilterClick()" type="button">Clear</button>
+  </div>
+</div>
+<div *ngIf="!error" class="row container-fluid margin-t">
+  <div *ngFor="let item of todos; let i = index" class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 margin-d">
+    <div class="card" style="width: 18rem;">
+      <img src = "{{url}}{{item.path}}" class="card-img-top" alt="..."> 
+      <div class="card-body">
+        <h5 class="card-title">{{item.title}}</h5>
+        <p class="card-text">{{item.description}}</p>
+        <p *ngIf="item.status == 'DONE'" class="card-text"><strong class="text-success">{{item.status}}</strong></p>
+        <p *ngIf="item.status == 'PENDING'"  class="card-text"><strong class="text-danger">{{item.status}}</strong></p>
+        <div class="text-center">
+          <button *ngIf="item.status == 'PENDING'" class="btn btn-success btn-block" (click)="onResolvedClicked(i)">Mark as resolved</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="error" class="alert alert-danger margin-t" role="alert">
+    There is an error: {{errorMessage}}. <a href="#" class="alert-link">Please refresh the browser</a>.
+</div>

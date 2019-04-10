@@ -1,16 +1,21 @@
-<h1>Create a ToDo</h1>
-<form [formGroup]="createTodoForm" (ngSubmit)="onSubmit()">
-  <div class="form-group">
-    <label for="title">Title</label>
-    <input type="text" class="form-control" id="title" placeholder="Enter todo's title" formControlName="todoTitle">
-  </div>
-  <div class="form-group">
-    <label for="description">Description</label>
-    <input type="text" class="form-control" id="description" placeholder="Enter todo's description" formControlName="todoDescription">
-  </div>
-  <div class="form-group">
-    <label for="formControl">Attach an image</label>
-    <input type="file" class="form-control-file" id="formControl" (change)="onFileChange($event)" accept=".jpg,.png">
-  </div>
-  <button type="submit" class="btn btn-primary" [disabled]="!createTodoForm.valid">Submit</button>
-</form>
+<div *ngIf="!error" class="container-fluid margin-t">
+  <h1>Create a ToDo</h1>
+  <form [formGroup]="createTodoForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" maxlength="255" class="form-control" id="title" placeholder="Enter todo's title" formControlName="todoTitle">
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input type="text" maxlength="255" class="form-control" id="description" placeholder="Enter todo's description" formControlName="todoDescription">
+    </div>
+    <div class="form-group">
+      <label for="image">Attach an image</label>
+      <input type="file" class="form-control-file" id="image" (change)="onFileChange($event)" accept=".jpg,.png" formControlName="todoImage">
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="!createTodoForm.valid">Submit</button>
+  </form>
+</div>
+<div *ngIf="error" class="alert alert-danger margin-t" role="alert">
+    There is an error: {{errorMessage}}. <a href="#" class="alert-link">Please refresh the browser</a>.
+</div>

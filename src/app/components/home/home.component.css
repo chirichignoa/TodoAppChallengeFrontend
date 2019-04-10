@@ -1,0 +1,18 @@
+.container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.margin-d {
+    margin-bottom: 10px;
+}
+
+.info {
+    background-color: #e3f2fd;
+}
+
+.jumbotron {
+    background-color: #e3f2fd
+}
