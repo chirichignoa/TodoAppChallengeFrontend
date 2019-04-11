@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { TodoService } from '../../services/todo.service';
 import { Todo } from 'src/app/models/todo';
 import { map, filter, scan } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -26,9 +27,14 @@ export class HomeComponent implements OnInit {
     this.todoService.getTodos()
     .subscribe(( data: Todo[] ) => { this.todos = data; },
      (error => {
-       console.log(error);
-       this.error = true;
-       this.errorMessage = error;
+        if (error instanceof HttpErrorResponse) {
+          this.error = true;
+          const err = error.message || JSON.stringify(error.error);
+          this.errorMessage = `${error.statusText || ''} Details: ${err}`;
+        } else {
+        this.error = true;
+        this.errorMessage = error;
+        }
       }));
   }
 

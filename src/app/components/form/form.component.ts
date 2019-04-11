@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 import { TodoService } from '../../services/todo.service';
 import { Todo } from 'src/app/models/todo';
@@ -52,10 +52,15 @@ export class FormComponent implements OnInit {
     .subscribe(
       (data: Todo) => {
         this.router.navigate(['/home']);
-      }, (error) => {
+      }, (error => {
+        if (error instanceof HttpErrorResponse) {
+          this.error = true;
+          const err = error.message || JSON.stringify(error.error);
+          this.errorMessage = `${error.statusText || ''} Details: ${err}`;
+        } else {
         this.error = true;
         this.errorMessage = error;
-      }
-    );
+        }
+      }));
   }
 }
