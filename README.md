@@ -13,7 +13,7 @@ Note: ensure that Docker is installed.
 3. Finally, run
 
    ```bash
-   docker run --rm -d -p 90:80/tcp frontend:latest
+   docker run --rm -d -p 4200:80/tcp frontend:latest
    ```
 
-4. Enter to [localhost:90]()
+4. Enter to [localhost:4200]()
